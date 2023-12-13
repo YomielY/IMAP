@@ -50,57 +50,93 @@ int main() {
     if (!(1==res)) handleFailure();
 
     /* hostname verification */
-    const char *tag = "A01";
+    const char *tag1 = "A01";
+
     int length = strlen(PASSWORD);
     char loginCommand[256];
-    // Use sprintf to format the string
-    sprintf(loginCommand, "%s LOGIN %s {%d}\r\n%s\r\n", tag, USERNAME, length, PASSWORD);
+    sprintf(loginCommand, "%s LOGIN %s {%d}\r\n%s\r\n", tag1, USERNAME, length, PASSWORD);
 
     res = BIO_puts(web, loginCommand);
     if (!(res > 0)) handleFailure();
 
     // Read data from the connection
+    int bytesRead;
     char buffer[1024];
-    int bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
-    if (bytesRead > 0) {
-        buffer[bytesRead] = '\0';  // Null-terminate the buffer
-        printf("Received data:\n%s\n", buffer);
-    } else if (bytesRead == 0 || bytesRead == -1) {
-        printf("Connection closed by the server.\n");
-    } else {
-        printf("Error reading data.\n");
-    }
+    do 
+    {
+        bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
+        if (bytesRead > 0) {
+            buffer[bytesRead] = '\0';  
+            printf("%s", buffer);
+
+            // Check if the received data contains the tag "A01"
+            if (strstr(buffer, tag1) != NULL) {
+                printf("Connection closed\n");
+                break;
+            }
+        } else if (bytesRead == 0 || bytesRead == -1) {
+            printf("Connection closed by the server.\n");
+            break;
+        } else {
+            printf("Error reading data.\n");
+            break;
+        }
+    } while (1);
+
 
     /* Select Folder */
+    const char *tag2 = "A02";
     const char *selectCommand = "A02 SELECT " INBOX_FOLDER "\r\n";
     res = BIO_puts(web, selectCommand);
     if (!(res > 0)) handleFailure();
 
-    // Read data from the connection after SELECT
-    bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
+    do 
+    {
+        bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
+        if (bytesRead > 0) {
+            buffer[bytesRead] = '\0';  
+            printf("%s", buffer);
 
-    if (bytesRead > 0) {
-        buffer[bytesRead] = '\0';
-        printf("Received data after SELECT:\n%s\n", buffer);
-    } else {
-        printf("Error reading data after SELECT.\n");
-    }
+            // Check if the received data contains the tag "A01"
+            if (strstr(buffer, tag2) != NULL) {
+                printf("Connection closed\n");
+                break;
+            }
+        } else if (bytesRead == 0 || bytesRead == -1) {
+            printf("Connection closed by the server.\n");
+            break;
+        } else {
+            printf("Error reading data.\n");
+            break;
+        }
+    } while (1);
 
     /* Fetch the email from mailbox */
+    const char *tag3 = "A03";
     const char *fetchCommand = "A03 FETCH 1 BODY.PEEK[]\r\n";
-
     res = BIO_puts(web, fetchCommand);
     if (!(res > 0)) handleFailure();
-
     // Read data from the connection after FETCH
-    bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
+    do 
+    {
+        bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
+        if (bytesRead > 0) {
+            buffer[bytesRead] = '\0';  
+            printf("%s", buffer);
 
-    if (bytesRead > 0) {
-        buffer[bytesRead] = '\0';
-        printf("Received data after FETCH:\n%s\n", buffer);
-    } else {
-        printf("Error reading data after FETCH.\n");
-    }
+            // Check if the received data contains the tag "A01"
+            if (strstr(buffer, tag3) != NULL) {
+                printf("Connection closed\n");
+                break;
+            }
+        } else if (bytesRead == 0 || bytesRead == -1) {
+            printf("Connection closed by the server.\n");
+            break;
+        } else {
+            printf("Error reading data.\n");
+            break;
+        }
+    } while (1);
 
     /* free memory */
     if (web != NULL) {
