@@ -1,4 +1,6 @@
 /*
+Feedback: 
+
 Time taken: 
  - Generally it takes me 2 days for finishing all the requirements. 
  - It took me one day for understanding the code provided by the OpenSSL page on how to form connection between client and server, 
@@ -31,7 +33,7 @@ Extention interested:
 #define PASSWORD "ztfi minb xqac vvqg"
 
 void handleFailure() {
-    fprintf(stderr, "Error occurred.\n");
+    fprintf(stderr, "Connection Error.\n");
     exit(EXIT_FAILURE);
 }
 

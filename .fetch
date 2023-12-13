@@ -1,5 +1,0 @@
-set postmaster "haydenyin100"
-set bouncemail
-
-poll imap.gmail.com with proto IMAP
-user "haydenyin100@gmail.com" there with password "ztfi minb xqac vvqg" is your_local_username here options ssl
