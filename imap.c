@@ -1,4 +1,23 @@
+/*
+Time taken: 
+ - Generally it takes me 2 days for finishing all the requirements. 
+ - It took me one day for understanding the code provided by the OpenSSL page on how to form connection between client and server, 
+   as well as read through the function given by the openSSL library for a fully understanding how can I incorporate them into the 
+   realization of receiving email. 
+ - The time it took me for writing the code is rather short compared with understanding the material and debugging. 
 
+Difficulties faced: 
+ - The most challenging part is to understand each OpenSSL API provided by its library and figuring out where can they be used properly. 
+ - The installation of OpenSSL took me some efforts at first for its complex configuration process for windows OS. 
+ - For reading the information from server side, it was challenging to think of the proper point to break the loop and proceed onto the next step.
+ - The authentication process caused a little terbulence for my implementation. 
+
+Extention interested: 
+ - The security level of this simple mail reading API can indeed be improved by using certificate verification. 
+ - Two step authentication is a convenience functionality provided by Gmail but may position the security at risk. 
+ - The SSL/TSL verification is important as a user as well as a developer of the computer network, it provides safety control over people's privacy.  
+ - Configuration of open source library using Linux is way more easier than setting up using windows OS. 
+*/
 
 
 
