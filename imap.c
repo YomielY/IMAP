@@ -1,3 +1,7 @@
+
+
+
+
 #include <openssl/ssl.h>
 #include <openssl/bio.h>
 
@@ -8,7 +12,6 @@
 #define PASSWORD "ztfi minb xqac vvqg"
 
 void handleFailure() {
-    // Implement your error handling logic
     fprintf(stderr, "Error occurred.\n");
     exit(EXIT_FAILURE);
 }
@@ -61,7 +64,7 @@ int main() {
 
     // Read data from the connection
     int bytesRead;
-    char buffer[1024];
+    char buffer[2160];
     do 
     {
         bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
@@ -69,16 +72,15 @@ int main() {
             buffer[bytesRead] = '\0';  
             printf("%s", buffer);
 
-            // Check if the received data contains the tag "A01"
+            // If tag A01 identified 
             if (strstr(buffer, tag1) != NULL) {
-                printf("Connection closed\n");
                 break;
             }
         } else if (bytesRead == 0 || bytesRead == -1) {
-            printf("Connection closed by the server.\n");
+            printf(" No data was successfully read or written. ");
             break;
         } else {
-            printf("Error reading data.\n");
+            printf(" Operation is not implemented in the specific BIO type. ");
             break;
         }
     } while (1);
@@ -97,16 +99,15 @@ int main() {
             buffer[bytesRead] = '\0';  
             printf("%s", buffer);
 
-            // Check if the received data contains the tag "A01"
+            // If tag A02 identified
             if (strstr(buffer, tag2) != NULL) {
-                printf("Connection closed\n");
                 break;
             }
         } else if (bytesRead == 0 || bytesRead == -1) {
-            printf("Connection closed by the server.\n");
+            printf(" No data was successfully read or written. ");
             break;
         } else {
-            printf("Error reading data.\n");
+            printf(" Operation is not implemented in the specific BIO type. ");
             break;
         }
     } while (1);
@@ -116,24 +117,23 @@ int main() {
     const char *fetchCommand = "A03 FETCH 1 BODY.PEEK[]\r\n";
     res = BIO_puts(web, fetchCommand);
     if (!(res > 0)) handleFailure();
-    // Read data from the connection after FETCH
+
+    // Read data after FETCH
     do 
     {
         bytesRead = BIO_read(web, buffer, sizeof(buffer) - 1);
         if (bytesRead > 0) {
             buffer[bytesRead] = '\0';  
             printf("%s", buffer);
-
-            // Check if the received data contains the tag "A01"
+            // If tag A03 identified
             if (strstr(buffer, tag3) != NULL) {
-                printf("Connection closed\n");
                 break;
             }
         } else if (bytesRead == 0 || bytesRead == -1) {
-            printf("Connection closed by the server.\n");
+            printf(" No data was successfully read or written. ");
             break;
         } else {
-            printf("Error reading data.\n");
+            printf(" Operation is not implemented in the specific BIO type. ");
             break;
         }
     } while (1);
@@ -146,5 +146,7 @@ int main() {
     if (NULL != ctx) {
         SSL_CTX_free(ctx);
     }
+
+    return 0;
 }
 
